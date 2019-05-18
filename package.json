@@ -1,0 +1,35 @@
+{
+  "name": "pillar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/jest --no-cache"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardsession/pillar-code-kata.git"
+  },
+  "keywords": [
+    "javascript",
+    "es6",
+    "jest",
+    "tdd"
+  ],
+  "author": "Richard Session <info@richardsession.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/richardsession/pillar-code-kata/issues"
+  },
+  "homepage": "https://github.com/richardsession/pillar-code-kata#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^24.0.13",
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.4.5"
+  }
+}
