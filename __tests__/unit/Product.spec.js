@@ -33,12 +33,6 @@ describe('Product class', () => {
         }).toThrowError();
     });
 
-    test('price checking function throws error when passed a negative number', () => {
-        expect(() => {
-            product.checkPrice(-0.45);
-        }).toThrowError();
-    });
-
     test('sets markdown strategy correctly', () => {
         expect(product.markdown).toBeNull();
 
