@@ -20,4 +20,22 @@ describe('Product class', () => {
     test('can retrieve the correct price of the product', () => {
         expect(product.price).toEqual(0.69);
     });
+
+    test('setting price to negative number during instantiation throws error', () => {
+        expect(() => {
+            const product = new Product('bananas', -0.56);
+        }).toThrowError();
+    });
+
+    test('changing price to negative number after object instantiation throws error', () => {
+        expect(() => {
+            product.price = -0.58;
+        }).toThrowError();
+    });
+
+    test('price checking function throws error when passed a negative number', () => {
+        expect(() => {
+            product.checkPrice(-0.45);
+        }).toThrowError();
+    });
 });
