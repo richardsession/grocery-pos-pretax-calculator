@@ -38,4 +38,12 @@ describe('Product class', () => {
             product.checkPrice(-0.45);
         }).toThrowError();
     });
+
+    test('sets markdown strategy correctly', () => {
+        expect(product.markdown).toBeNull();
+
+        product.markdown = new ProductRuleMarkdownStrategy(0.99);
+
+        expect(product.markdown.markdown).toBe(0.99);
+    });
 });
