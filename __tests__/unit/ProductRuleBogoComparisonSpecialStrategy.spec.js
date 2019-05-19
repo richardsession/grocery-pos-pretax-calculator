@@ -36,4 +36,25 @@ describe('ProductRuleBogoComparisionSpecialStrategy', () => {
         }).toThrowError();
     });
 
+    test('determine if the special should be applied', () => {
+        const product = new Product('tomatoes', 0.49);
+        const lineItem = new ShoppingCartLineItem(product, 2.3);
+        const strategy = new ProductRuleBogoComparisionSpecialStrategy(3, 2, 0.5);
+
+        let qualifies = strategy.qualifies(lineItem);
+
+        expect(qualifies).toBe(false);
+
+        lineItem.quantity = 3;
+
+        qualifies = strategy.qualifies(lineItem);
+
+        expect(qualifies).toBe(true);
+
+        lineItem.quantity = 3.1;
+
+        qualifies = strategy.qualifies(lineItem);
+
+        expect(qualifies).toBe(true);
+    });
 });

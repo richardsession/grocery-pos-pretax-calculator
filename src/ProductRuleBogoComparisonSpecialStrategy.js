@@ -67,4 +67,14 @@ export default class ProductRuleBogoComparisoinSpecialStrategy
             throw new Error(label + ' cannot have a value less than 0');
         }
     }
+
+    /**
+     * Determines if the special should be applied
+     * 
+     * @param ShoppingCartLineItem lineItem 
+     * @returns boolean
+     */
+    qualifies (lineItem) {
+        return (this.qtyNeeded <= lineItem.quantity);
+    }
 }
