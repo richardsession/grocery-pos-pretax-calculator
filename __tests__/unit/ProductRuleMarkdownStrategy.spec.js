@@ -49,7 +49,7 @@ describe('ProductRuleMarkdownStrategy class', () => {
         expect(total).toEqual(1.60);
     });
 
-    test('markdown price is correct for unit-price based product', () => {
+    test('markdown price is correct for weight-based product', () => {
         const product = new Product('lettuce', 0.59);
         const lineItem = new ShoppingCartLineItem(product, 2.442);
         const strategy = new ProductRuleMarkdownStrategy(0.39);
