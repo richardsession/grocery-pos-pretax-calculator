@@ -78,4 +78,8 @@ export default class ProductRuleQuantitySpecialStrategy
 
         return lineItem.quantity % this.quantity;
     }
+
+    getSpecialsQty (lineItem) {
+        return Math.floor(lineItem.quantity / this.quantity);
+    }
 }
