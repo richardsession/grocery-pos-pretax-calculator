@@ -79,7 +79,11 @@ export default class ProductRuleQuantitySpecialStrategy
         return lineItem.quantity % this.quantity;
     }
 
-    getSpecialsQty (lineItem) {
+    getNumSpecials (lineItem) {
+        if(this.limit && lineItem.quantity >= this.limit) {
+            return this.limit / this.quantity;
+        }
+
         return Math.floor(lineItem.quantity / this.quantity);
     }
 }

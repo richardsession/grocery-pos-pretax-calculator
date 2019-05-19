@@ -98,14 +98,30 @@ describe('ProductRuleQuantitySpecialStrategy class', () => {
         const lineItem = new ShoppingCartLineItem(product, 6);
         const strategy = new ProductRuleQuantitySpecialStrategy(3, 5);
 
-        let qty = strategy.getSpecialsQty(lineItem);
+        let qty = strategy.getNumSpecials(lineItem);
 
         expect(qty).toEqual(2);
 
         lineItem.quantity = 14;
 
-        qty = strategy.getSpecialsQty(lineItem);
+        qty = strategy.getNumSpecials(lineItem);
 
         expect(qty).toEqual(4);
+    });
+
+    test('calculates the number of specials that are present within the line item with a limit applied', () => {
+        const product = new Product('yogurt', 2.99);
+        const lineItem = new ShoppingCartLineItem(product, 5);
+        const strategy = new ProductRuleQuantitySpecialStrategy(3, 5, 6);
+
+        let qty = strategy.getNumSpecials(lineItem);
+
+        expect(qty).toEqual(1);
+
+        lineItem.quantity = 14;
+
+        qty = strategy.getNumSpecials(lineItem);
+
+        expect(qty).toEqual(2);
     });
 });
