@@ -43,13 +43,31 @@ export default class ProductRuleQuantitySpecialStrategy
         this._limit = limit;
     }
 
-    qualifies (lineItem) {
-        return (this.quantity >= lineItem.quantity);
+    /**
+     * Applies the special to the line item
+     * 
+     * @param ShoppingCartLineItem lineItem 
+     * @returns number
+     */
+    apply (lineItem) {
+        if(!this.qualifies) {
+            throw new Error('Unable to apply the quantity special for product: ' + lineItem.product.id);
+        }
     }
 
     checkValueIsPositive (label, value) {
         if(value < 0) {
             throw new Error(label + ' cannot have a value less than 0');
         }
+    }
+
+    /**
+     * Determines if the special should be applied
+     * 
+     * @param ShoppingCartLineItem lineItem 
+     * @returns boolean
+     */
+    qualifies (lineItem) {
+        return (lineItem.quantity >= this.quantity);
     }
 }

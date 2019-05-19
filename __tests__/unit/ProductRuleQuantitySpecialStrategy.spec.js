@@ -1,6 +1,8 @@
 'use strict';
 
 import ProductRuleQuantitySpecialStrategy from '../../src/ProductRuleQuantitySpecialStrategy';
+import ShoppingCartLineItem from '../../src/ShoppingCartLineItem';
+import Product from '../../src/Product';
 
 describe('ProductRuleQuantitySpecialStrategy class', () => {
     beforeEach(() => {
@@ -31,5 +33,31 @@ describe('ProductRuleQuantitySpecialStrategy class', () => {
         expect(() => {
             const strategy = new ProductRuleQuantitySpecialStrategy(3, 5, -1);
         }).toThrowError();
+    });
+
+    test('the line item qualifies for the special', () => {
+        const product = new Product('yogurt', 1.19);
+        const lineItem = new ShoppingCartLineItem(product, 3);
+        const strategy = new ProductRuleQuantitySpecialStrategy(3, 5);
+
+        let qualifies = strategy.qualifies(lineItem);
+
+        expect(qualifies).toBe(true);
+
+        lineItem.quantity = 4;
+
+        qualifies = strategy.qualifies(lineItem);
+
+        expect(qualifies).toBe(true);
+    });
+
+    test('the line item does not qualify for the special', () => {
+        const product = new Product('yogurt', 1.19);
+        const lineItem = new ShoppingCartLineItem(product, 2);
+        const strategy = new ProductRuleQuantitySpecialStrategy(3, 5);
+
+        let qualifies = strategy.qualifies(lineItem);
+
+        expect(qualifies).toBe(false);
     });
 });
