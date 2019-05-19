@@ -70,8 +70,28 @@ describe('ShoppingCartLineItem class', () => {
         const lineItem = new ShoppingCartLineItem(product, 2);
         product.markdown = new ProductRuleMarkdownStrategy(0.59);
 
-        const total = Number(lineItem.getTotal().toPrecision(2));
+        const total = Number(lineItem.getTotal().toFixed(2));
 
         expect(total).toEqual(7.4);
+    });
+
+    test('line item total for weight-based product is correct with percentage-based markdown applied', () => {
+        const product = new Product('bananas', 0.69);
+        const lineItem = new ShoppingCartLineItem(product, 1.495);
+        product.markdown = new ProductRuleMarkdownPercentageStrategy(0.20);
+
+        const total = Number(lineItem.getTotal().toFixed(2));
+
+        expect(total).toEqual(0.83);
+    });
+
+    test('line item total for unit-price based product is correct with percentage-based markdown applied', () => {
+        const product = new Product('hummus', 4.29);
+        const lineItem = new ShoppingCartLineItem(product, 2);
+        product.markdown = new ProductRuleMarkdownPercentageStrategy(0.59);
+
+        const total = Number(lineItem.getTotal().toFixed(2));
+
+        expect(total).toEqual(3.52);
     });
 });
