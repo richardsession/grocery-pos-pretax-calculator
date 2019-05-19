@@ -70,4 +70,16 @@ export default class ProductRuleQuantitySpecialStrategy
     qualifies (lineItem) {
         return (lineItem.quantity >= this.quantity);
     }
+
+    /**
+     * Apply multiples of the special price when no limit is present
+     * 
+     * @param ShoppingCartLineItem lineItem 
+     * @return number|undefined
+     */
+    calculateMultiplePrice (lineItem) {
+        if(lineItem.quantity % this.quantity === 0) {
+            return this.price * (lineItem.quantity / this.quantity);
+        }
+    }
 }

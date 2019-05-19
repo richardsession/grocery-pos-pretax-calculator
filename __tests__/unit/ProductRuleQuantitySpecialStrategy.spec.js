@@ -56,8 +56,28 @@ describe('ProductRuleQuantitySpecialStrategy class', () => {
         const lineItem = new ShoppingCartLineItem(product, 2);
         const strategy = new ProductRuleQuantitySpecialStrategy(3, 5);
 
-        let qualifies = strategy.qualifies(lineItem);
+        const qualifies = strategy.qualifies(lineItem);
 
         expect(qualifies).toBe(false);
+    });
+
+    test('can apply the special to multiple combinations of the special\'s rule without a limit', () => {
+        const product = new Product('yogurt', 2.99);
+        const lineItem = new ShoppingCartLineItem(product, 6);
+        const strategy = new ProductRuleQuantitySpecialStrategy(3, 5);
+
+        const total = strategy.calculateMultiplePrice(lineItem);
+
+        expect(total).toBe(10);
+    });
+
+    test('can apply the special to multiple combinations of the special\'s rule without a limit', () => {
+        const product = new Product('yogurt', 2.99);
+        const lineItem = new ShoppingCartLineItem(product, 5);
+        const strategy = new ProductRuleQuantitySpecialStrategy(3, 5);
+
+        const total = strategy.calculateMultiplePrice(lineItem);
+
+        expect(total).toBeUndefined();
     });
 });
