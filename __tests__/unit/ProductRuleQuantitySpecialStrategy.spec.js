@@ -124,4 +124,36 @@ describe('ProductRuleQuantitySpecialStrategy class', () => {
 
         expect(qty).toEqual(2);
     });
+
+    test('calculates the correct final line item price without a limit applied', () => {
+        const product = new Product('yogurt', 2.99);
+        const lineItem = new ShoppingCartLineItem(product, 5);
+        const strategy = new ProductRuleQuantitySpecialStrategy(3, 5);
+
+        let total = strategy.apply(lineItem);
+
+        expect(total).toEqual(10.98);
+
+        lineItem.quantity = 13;
+
+        total = strategy.apply(lineItem);
+
+        expect(Number(total.toFixed(2))).toEqual(22.99);
+    });
+
+    test('calculates the correct final line item price with a limit applied', () => {
+        const product = new Product('yogurt', 2.99);
+        const lineItem = new ShoppingCartLineItem(product, 5);
+        const strategy = new ProductRuleQuantitySpecialStrategy(3, 5, 6);
+
+        let total = strategy.apply(lineItem);
+
+        expect(total).toEqual(10.98);
+
+        lineItem.quantity = 13;
+
+        total = strategy.apply(lineItem);
+
+        expect(Number(total.toFixed(2))).toEqual(30.93);
+    });
 });

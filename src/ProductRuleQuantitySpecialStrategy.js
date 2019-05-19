@@ -53,6 +53,11 @@ export default class ProductRuleQuantitySpecialStrategy
         if(!this.qualifies) {
             throw new Error('Unable to apply the quantity special for product: ' + lineItem.product.id);
         }
+
+        const regularPricedItemsTotal = this.getRegularPricedItemsQty(lineItem) * lineItem.product.price;
+        const salePricedItemsTotal = this.getNumSpecials(lineItem) * this.price;
+
+        return regularPricedItemsTotal + salePricedItemsTotal;
     }
 
     checkValueIsPositive (label, value) {
