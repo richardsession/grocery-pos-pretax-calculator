@@ -10,7 +10,7 @@ describe('ProductRuleBogoSpecialStrategy', () => {
     test('object properties are set correctly', () => {
         const strategy = new ProductRuleBogoSpecialStrategy(2, 1, 0.5);
 
-        expect(strategy.neededQty).toEqual(2);
+        expect(strategy.qtyNeeded).toEqual(2);
         expect(strategy.qtyDiscounted).toEqual(1);
         expect(strategy.discount).toEqual(0.5);
         expect(strategy.limit).toBeNull();

@@ -6,26 +6,26 @@
  */
 export default class ProductRuleBogoSpecialStrategy
 {
-    constructor (neededQty, qtyDiscounted, discount, limit = null) {
-        this.checkValueIsPositive('quantity needed', neededQty);
+    constructor (qtyNeeded, qtyDiscounted, discount, limit = null) {
+        this.checkValueIsPositive('quantity needed', qtyNeeded);
         this.checkValueIsPositive('discount quantity', qtyDiscounted);
         this.checkValueIsPositive('discount', discount);
         this.checkValueIsPositive('limit', limit);
 
-        this._neededQty = neededQty;
+        this._qtyNeeded = qtyNeeded;
         this._qtyDiscounted = qtyDiscounted;
         this._discount = discount;
         this._limit = limit;
     }
 
-    get neededQty () {
-        return this._neededQty;
+    get qtyNeeded () {
+        return this._qtyNeeded;
     }
 
-    set neededQty (neededQty) {
-        this.checkValueIsPositive('quantity needed', neededQty);
+    set qtyNeeded (qtyNeeded) {
+        this.checkValueIsPositive('quantity needed', qtyNeeded);
 
-        this._neededQty = neededQty
+        this._qtyNeeded = qtyNeeded
     }
 
     get qtyDiscounted () {
@@ -58,8 +58,29 @@ export default class ProductRuleBogoSpecialStrategy
         this._limit = limit;
     }
 
+    apply (lineItem) {
+        if(!this.qualifies(lineItem)) {
+            throw new Error('Unable to apply the BOGO special on product: ' + lineItem.product.id);
+        }
+        
+        let discountedItemsQty = 0;
+        
+        if(this.limit) {
+            discountedItemsQty = (this.limit / this.qtyNeeded) + this.qtyDiscounted;
+        } else {
+            discountedItemsQty = Math.floor(lineItem.quantity / (this.qtyNeeded + this.qtyDiscounted));
+        }
+
+        const fullPriceItemsQty = lineItem.quantity - discountedItemsQty;
+
+        const discountedItemsPrice = (lineItem.product.price - (lineItem.product.price * this.discount)) * discountedItemsQty;
+        const fullPriceItemsPrice = lineItem.product.price * fullPriceItemsQty;
+
+        return discountedItemsPrice + fullPriceItemsPrice;
+    }
+
     qualifies (lineItem) {
-        return (lineItem.quantity <= this.neededQty);
+        return (lineItem.quantity <= this.qtyNeeded);
     }
 
     checkValueIsPositive (label, value) {

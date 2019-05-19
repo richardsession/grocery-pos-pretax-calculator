@@ -40,4 +40,14 @@ describe('Product class', () => {
 
         expect(product.markdown.markdown).toBe(0.99);
     });
+
+    test('sets special strategy correctly', () => {
+        expect(product.special).toBeNull();
+
+        product.special = new ProductRuleBogoSpecialStrategy(2, 1, 0.5);
+
+        expect(product.special.qtyNeeded).toEqual(2);
+        expect(product.special.qtyDiscounted).toEqual(1);
+        expect(product.special.discount).toEqual(0.5);
+    });
 });
