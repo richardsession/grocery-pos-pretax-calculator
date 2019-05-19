@@ -11,19 +11,14 @@
  */
 export default class ProductRuleBogoComparisoinSpecialStrategy
 {
-    constructor (qtyNeeded, qtyDiscounted, discount, limit = null) {
+    constructor (qtyNeeded, qtyDiscounted, discount) {
         this.checkValueIsPositive('quantity needed', qtyNeeded);
         this.checkValueIsPositive('discount quantity', qtyDiscounted);
         this.checkValueIsPositive('discount', discount);
 
-        if(limit) {
-            this.checkValueIsPositive('limit', limit);
-        }
-
         this._qtyNeeded = qtyNeeded;
         this._qtyDiscounted = qtyDiscounted;
         this._discount = discount;
-        this._limit = limit;
     }
 
     get qtyNeeded () {
@@ -56,16 +51,6 @@ export default class ProductRuleBogoComparisoinSpecialStrategy
         this._discount = discount;
     }
 
-    get limit () {
-        return this._limit;
-    }
-
-    set limit (limit) {
-        this.checkValueIsPositive('limit', limit);
-
-        this._limit = limit;
-    }
-
     /**
      * Applies the special to the line item
      * 
@@ -76,6 +61,12 @@ export default class ProductRuleBogoComparisoinSpecialStrategy
         if(!this.qualifies(lineItem)) {
             throw new Error('Unable to apply the BOGO special on product: ' + lineItem.product.id);
         }
+
+        const discountQty = lineItem.quantity - this.qtyNeeded;
+        const discountTotal = discountQty * (lineItem.product.price - (lineItem.product.price * this.discount));
+        const regularPriceTotal = lineItem.product.price * this.qtyNeeded;
+
+        return discountTotal + regularPriceTotal;
     }
 
     checkValueIsPositive (label, value) {
