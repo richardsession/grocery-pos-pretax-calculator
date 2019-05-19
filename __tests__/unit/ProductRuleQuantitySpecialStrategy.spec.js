@@ -61,23 +61,35 @@ describe('ProductRuleQuantitySpecialStrategy class', () => {
         expect(qualifies).toBe(false);
     });
 
-    test('can apply the special to multiple combinations of the special\'s rule without a limit', () => {
+    test('calculates the correct number of regularly-priced items without a limit applied', () => {
         const product = new Product('yogurt', 2.99);
         const lineItem = new ShoppingCartLineItem(product, 6);
         const strategy = new ProductRuleQuantitySpecialStrategy(3, 5);
 
-        const total = strategy.calculateMultiplePrice(lineItem);
+        let total = strategy.getRegularPricedItemsQty(lineItem);
 
-        expect(total).toBe(10);
+        expect(total).toBe(0);
+
+        lineItem.quantity = 11;
+
+        total = strategy.getRegularPricedItemsQty(lineItem);
+
+        expect(total).toEqual(2);
     });
 
-    test('can apply the special to multiple combinations of the special\'s rule without a limit', () => {
+    test('calculates the correct number of regularly-priced items with a limit applied', () => {
         const product = new Product('yogurt', 2.99);
-        const lineItem = new ShoppingCartLineItem(product, 5);
-        const strategy = new ProductRuleQuantitySpecialStrategy(3, 5);
+        const lineItem = new ShoppingCartLineItem(product, 6);
+        const strategy = new ProductRuleQuantitySpecialStrategy(3, 5, 6);
 
-        const total = strategy.calculateMultiplePrice(lineItem);
+        let total = strategy.getRegularPricedItemsQty(lineItem);
 
-        expect(total).toBeUndefined();
+        expect(total).toBe(0);
+
+        lineItem.quantity = 11;
+
+        total = strategy.getRegularPricedItemsQty(lineItem);
+
+        expect(total).toEqual(5);
     });
 });
