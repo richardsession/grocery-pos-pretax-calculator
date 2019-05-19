@@ -109,4 +109,14 @@ describe('ProductRuleBogoSpecialStrategy', () => {
 
         expect(price).toEqual(1.145); 
     });
+
+    test('throws error when applying special to unqualified line item', () => {
+        const product = new Product('chips', 2.29);
+        const lineItem = new ShoppingCartLineItem(product, 3);
+        const strategy = new ProductRuleBogoSpecialStrategy(3, 1, 0.5, 8);
+
+        expect(() => {
+            const price = strategy.apply(lineItem);
+        }).toThrowError();
+    });
 });
