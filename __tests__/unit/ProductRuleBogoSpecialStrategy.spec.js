@@ -99,4 +99,14 @@ describe('ProductRuleBogoSpecialStrategy', () => {
 
         expect(qty).toEqual(2); 
     });
+
+    test('correct pricing for discounted items', () => {
+        const product = new Product('chips', 2.29);
+        const lineItem = new ShoppingCartLineItem(product, 12);
+        const strategy = new ProductRuleBogoSpecialStrategy(3, 1, 0.5, 8);
+
+        const price = strategy.getDiscountedItemsPricing(lineItem);
+
+        expect(price).toEqual(1.145); 
+    });
 });
