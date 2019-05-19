@@ -2,6 +2,8 @@
 
 import ShoppingCartLineItem from '../../src/ShoppingCartLineItem';
 import Product from '../../src/Product';
+import ProductRuleMarkdownStrategy from '../../src/ProductRuleMarkdownStrategy';
+import ProductRuleMarkdownPercentageStrategy from '../../src/ProductRuleMarkdownPercentageStrategy';
 
 describe('ShoppingCartLineItem class', () => {
     beforeEach(() => {
@@ -35,7 +37,7 @@ describe('ShoppingCartLineItem class', () => {
         }).toThrowError();
     });
 
-    test('line item total for weighted product is correct without any specials or markdowns applied', () => {
+    test('line item total for weight-based product is correct without any specials or markdowns applied', () => {
         const product = new Product('bananas', 0.69);
         const lineItem = new ShoppingCartLineItem(product, 1.495);
 
