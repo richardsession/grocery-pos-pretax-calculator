@@ -1,6 +1,8 @@
 'use strict';
 
 import ProductRuleBogoSpecialStrategy from '../../src/ProductRuleBogoSpecialStrategy';
+import ShoppingCartLineItem from '../../src/ShoppingCartLineItem';
+import Product from '../../src/Product';
 
 describe('ProductRuleBogoSpecialStrategy', () => {
     beforeEach(() => {
@@ -56,5 +58,25 @@ describe('ProductRuleBogoSpecialStrategy', () => {
         expect(() => {
             strategy.limit = -6;
         }).toThrowError();
+    });
+
+    test('product does not qualify for the special', () => {
+        const product = new Product('chips', 2.29);
+        const lineItem = new ShoppingCartLineItem(product, 3);
+        const strategy = new ProductRuleBogoSpecialStrategy(3, 2, 0.5);
+
+        const qualifies = strategy.qualifies(lineItem);
+
+        expect(qualifies).toBe(false);
+    });
+
+    test('product does qualify for the special', () => {
+        const product = new Product('chips', 2.29);
+        const lineItem = new ShoppingCartLineItem(product, 5);
+        const strategy = new ProductRuleBogoSpecialStrategy(3, 2, 0.5);
+
+        const qualifies = strategy.qualifies(lineItem);
+
+        expect(qualifies).toBe(true);
     });
 });
