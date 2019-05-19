@@ -69,4 +69,20 @@ describe('ProductRuleBogoComparisionSpecialStrategy', () => {
 
         expect(qualifies).toBe(false);
     });
+
+    test('throws error when applying the special to a line item that does not qualify for it', () => {
+        const product = new Product('tomatoes', 0.49);
+        const lineItem = new ShoppingCartLineItem(product, 2.3);
+        const strategy = new ProductRuleBogoComparisionSpecialStrategy(3, 2, 0.5);
+
+        expect(() => {
+            strategy.apply(lineItem);
+        }).toThrowError();
+
+        lineItem.quantity = 6;
+
+        expect(() => {
+            strategy.apply(lineItem);
+        }).toThrowError();
+    });
 });

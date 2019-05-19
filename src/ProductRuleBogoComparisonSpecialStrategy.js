@@ -66,6 +66,18 @@ export default class ProductRuleBogoComparisoinSpecialStrategy
         this._limit = limit;
     }
 
+    /**
+     * Applies the special to the line item
+     * 
+     * @param ShoppingCartLineItem lineItem 
+     * @returns number
+     */
+    apply (lineItem) {
+        if(!this.qualifies(lineItem)) {
+            throw new Error('Unable to apply the BOGO special on product: ' + lineItem.product.id);
+        }
+    }
+
     checkValueIsPositive (label, value) {
         if(value < 0) {
             throw new Error(label + ' cannot have a value less than 0');
