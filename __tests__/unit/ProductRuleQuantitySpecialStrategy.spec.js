@@ -156,4 +156,14 @@ describe('ProductRuleQuantitySpecialStrategy class', () => {
 
         expect(Number(total.toFixed(2))).toEqual(30.93);
     });
+
+    test('throws error when applying special to an invalid line item', () => {
+        const product = new Product('yogurt', 2.99);
+        const lineItem = new ShoppingCartLineItem(product, 2);
+        const strategy = new ProductRuleQuantitySpecialStrategy(3, 5);
+
+        expect(() => {
+            strategy.apply(lineItem);
+        }).toThrowError();
+    })
 });
