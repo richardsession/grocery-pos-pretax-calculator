@@ -58,27 +58,6 @@ export default class ProductRuleBogoSpecialStrategy
         this._limit = limit;
     }
 
-    apply (lineItem) {
-        if(!this.qualifies(lineItem)) {
-            throw new Error('Unable to apply the BOGO special on product: ' + lineItem.product.id);
-        }
-        
-        let discountedItemsQty = 0;
-        
-        if(this.limit) {
-            discountedItemsQty = (this.limit / this.qtyNeeded) + this.qtyDiscounted;
-        } else {
-            discountedItemsQty = Math.floor(lineItem.quantity / (this.qtyNeeded + this.qtyDiscounted));
-        }
-
-        const fullPriceItemsQty = lineItem.quantity - discountedItemsQty;
-
-        const discountedItemsPrice = (lineItem.product.price - (lineItem.product.price * this.discount)) * discountedItemsQty;
-        const fullPriceItemsPrice = lineItem.product.price * fullPriceItemsQty;
-
-        return discountedItemsPrice + fullPriceItemsPrice;
-    }
-
     qualifies (lineItem) {
         return (lineItem.quantity <= this.qtyNeeded);
     }
