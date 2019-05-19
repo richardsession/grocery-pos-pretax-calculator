@@ -54,4 +54,24 @@ describe('ShoppingCartLineItem class', () => {
 
         expect(total).toEqual(11.97);
     });
+
+    test('line item total for weight-based product is correct with markdown applied', () => {
+        const product = new Product('bananas', 0.69);
+        const lineItem = new ShoppingCartLineItem(product, 1.495);
+        product.markdown = new ProductRuleMarkdownStrategy(0.20);
+
+        const total = Number(lineItem.getTotal().toPrecision(2));
+
+        expect(total).toEqual(0.73);
+    });
+
+    test('line item total for unit-price based product is correct with markdown applied', () => {
+        const product = new Product('hummus', 4.29);
+        const lineItem = new ShoppingCartLineItem(product, 2);
+        product.markdown = new ProductRuleMarkdownStrategy(0.59);
+
+        const total = Number(lineItem.getTotal().toPrecision(2));
+
+        expect(total).toEqual(7.4);
+    });
 });

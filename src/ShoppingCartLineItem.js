@@ -28,6 +28,10 @@ export default class ShoppingCartLineItem
 	}
 
 	getTotal () {
+		if(this.product.markdown) {
+			return this.product.markdown.apply(this) * this.quantity;
+		}
+
 		return this.product.price * this.quantity;
 	}
 
