@@ -5,17 +5,17 @@ export default class ProductRuleMarkdownStrategy
     constructor (markdownPrice) {
         this.checkMarkdown(markdownPrice);
 
-        this.markdownPrice = markdownPrice;
+        this._markdownPrice = markdownPrice;
     }
 
     get markdown () {
-        return this.markdownPrice;
+        return this._markdownPrice;
     }
 
     set markdown (markdownPrice) {
         this.checkMarkdown(markdownPrice);
 
-        this.markdownPrice = markdownPrice;
+        this._markdownPrice = markdownPrice;
     }
 
     apply (lineItem) {
