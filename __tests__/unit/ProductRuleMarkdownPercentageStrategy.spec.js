@@ -15,19 +15,19 @@ describe('ProductRuleMarkdownPercentageStrategy class', () => {
 
     test('throws error if markdown is greater than 1', () => {
         expect(() => {
-            new ProductRuleMarkdownPercentageStrategy(1.1);
+            const strategy = new ProductRuleMarkdownPercentageStrategy(1.1);
         }).toThrowError();
     });
 
     test('throws error if markdown is less than 0', () => {
         expect(() => {
-            new ProductRuleMarkdownPercentageStrategy(-0.1);
+            const strategy = new ProductRuleMarkdownPercentageStrategy(-0.1);
         }).toThrowError();
     });
 
     test('throws error if markdown is not a number', () => {
         expect(() => {
-            new ProductRuleMarkdownPercentageStrategy('10%');
+            const strategy = new ProductRuleMarkdownPercentageStrategy('10%');
         }).toThrowError();
     });
 

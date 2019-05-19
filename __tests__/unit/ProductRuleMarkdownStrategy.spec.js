@@ -11,7 +11,7 @@ describe('ProductRuleMarkdownStrategy class', () => {
 
     test('throws error when the markdown price is less than 0', () => {
         expect(() => {
-            new ProductRuleMarkdownStrategy(-0.35);
+            const strategy = new ProductRuleMarkdownStrategy(-0.35);
         }).toThrowError();
     });
 

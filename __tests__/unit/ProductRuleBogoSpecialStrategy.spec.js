@@ -50,7 +50,7 @@ describe('ProductRuleBogoSpecialStrategy', () => {
         expect(strategy.limit).toBeNull();
 
         expect(() => {
-            new ProductRuleBogoSpecialStrategy(2, 1, 0.5, -6);
+            const strategy = new ProductRuleBogoSpecialStrategy(2, 1, 0.5, -6);
         }).toThrowError();
 
         expect(() => {
