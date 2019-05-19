@@ -50,7 +50,7 @@ export default class ProductRuleQuantitySpecialStrategy
      * @returns number
      */
     apply (lineItem) {
-        if(!this.qualifies) {
+        if(!this.qualifies(lineItem)) {
             throw new Error('Unable to apply the quantity special for product: ' + lineItem.product.id);
         }
 
