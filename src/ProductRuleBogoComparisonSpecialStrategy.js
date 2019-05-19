@@ -4,6 +4,10 @@
  * Buy one, get one of equal or lesser value special for weighted products
  * E.g., Buy 2 lbs, get 1 lb for half off.
  * 
+ * Design Choice:
+ * If the total quantity of the line item is between qtyNeeded and qtyNeeded + qtyDiscounted, then
+ * apply the special. Otherwise, the line item does not qualify for the special.
+ * 
  */
 export default class ProductRuleBogoComparisoinSpecialStrategy
 {
@@ -75,6 +79,6 @@ export default class ProductRuleBogoComparisoinSpecialStrategy
      * @returns boolean
      */
     qualifies (lineItem) {
-        return (this.qtyNeeded <= lineItem.quantity);
+        return this.qtyNeeded <= lineItem.quantity && lineItem.quantity <= (this.qtyNeeded + this.qtyDiscounted);
     }
 }

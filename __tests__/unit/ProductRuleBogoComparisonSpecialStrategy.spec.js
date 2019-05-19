@@ -56,5 +56,17 @@ describe('ProductRuleBogoComparisionSpecialStrategy', () => {
         qualifies = strategy.qualifies(lineItem);
 
         expect(qualifies).toBe(true);
+
+        lineItem.quantity = 5;
+
+        qualifies = strategy.qualifies(lineItem);
+
+        expect(qualifies).toBe(true);
+
+        lineItem.quantity = 6.1;
+
+        qualifies = strategy.qualifies(lineItem);
+
+        expect(qualifies).toBe(false);
     });
 });
