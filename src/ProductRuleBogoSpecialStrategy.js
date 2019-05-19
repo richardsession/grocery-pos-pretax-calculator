@@ -91,7 +91,7 @@ export default class ProductRuleBogoSpecialStrategy
      */
     getDiscountedItemsQty (lineItem) {
         if(this.limit) {
-            return (this.limit / this.qtyNeeded) + this.qtyDiscounted;
+            return this.limit / (this.qtyNeeded + this.qtyDiscounted);
         } 
         
         return Math.floor(lineItem.quantity / (this.qtyNeeded + this.qtyDiscounted));

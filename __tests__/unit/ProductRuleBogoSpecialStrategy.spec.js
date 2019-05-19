@@ -79,4 +79,24 @@ describe('ProductRuleBogoSpecialStrategy', () => {
 
         expect(qualifies).toBe(true);
     });
+
+    test('correct number of discounted items without a limit applied', () => {
+        const product = new Product('chips', 2.29);
+        const lineItem = new ShoppingCartLineItem(product, 8);
+        const strategy = new ProductRuleBogoSpecialStrategy(2, 1, 0.5);
+
+        const qty = strategy.getDiscountedItemsQty(lineItem);
+
+        expect(qty).toEqual(2); 
+    });
+
+    test('correct number of discounted items with a limit applied', () => {
+        const product = new Product('chips', 2.29);
+        const lineItem = new ShoppingCartLineItem(product, 12);
+        const strategy = new ProductRuleBogoSpecialStrategy(3, 1, 0.5, 8);
+
+        const qty = strategy.getDiscountedItemsQty(lineItem);
+
+        expect(qty).toEqual(2); 
+    });
 });
