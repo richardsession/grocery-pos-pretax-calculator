@@ -34,4 +34,22 @@ describe('ShoppingCartLineItem class', () => {
             lineItem.quantity = -3;
         }).toThrowError();
     });
+
+    test('line item total for weighted product is correct without any specials or markdowns applied', () => {
+        const product = new Product('bananas', 0.69);
+        const lineItem = new ShoppingCartLineItem(product, 1.495);
+
+        const total = lineItem.getTotal();
+
+        expect(total).toEqual(1.03155);
+    });
+
+    test('line item total for unit-price based product is correct without any specials or markdowns applied', () => {
+        const product = new Product('cookies', 3.99);
+        const lineItem = new ShoppingCartLineItem(product, 3);
+
+        const total = lineItem.getTotal();
+
+        expect(total).toEqual(11.97);
+    });
 });

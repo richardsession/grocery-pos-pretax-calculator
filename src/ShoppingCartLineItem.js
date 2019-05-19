@@ -27,6 +27,10 @@ export default class ShoppingCartLineItem
 		this._quantity = quantity;
 	}
 
+	getTotal () {
+		return this.product.price * this.quantity;
+	}
+
 	checkValue (value) {
 		if(value < 0) {
 			throw new Error('line item quantity must be greater than 0');
