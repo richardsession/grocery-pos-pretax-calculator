@@ -3,6 +3,8 @@
 /**
  * Buy one, get one special for products
  * E.g., Buy 2, get 1 for half off.
+ * 
+ * TODO: Make sure limit is evenly-divisible by (qtyNeeded + qtyDiscounted)
  */
 export default class ProductRuleBogoSpecialStrategy
 {
@@ -61,10 +63,25 @@ export default class ProductRuleBogoSpecialStrategy
         this._limit = limit;
     }
 
+    /**
+     * Applies the special to the line item
+     * 
+     * @param ShoppingCartLineItem lineItem 
+     * @returns number
+     */
     apply (lineItem) {
         if(!this.qualifies(lineItem)) {
             throw new Error('Unable to apply the BOGO special on product: ' + lineItem.product.id);
         }
+        
+        const discountedItemsQty = this.getDiscountedItemsQty(lineItem);
+        const fullPriceItemsQty = lineItem.quantity - discountedItemsQty;
+
+        const discountedItemsPricing = this.getDiscountedItemsPricing(lineItem);
+        const discountedItemsTotalPrice = discountedItemsPricing * discountedItemsQty;
+        const fullPriceItemsTotalPrice = lineItem.product.price * fullPriceItemsQty;
+
+        return discountedItemsTotalPrice + fullPriceItemsTotalPrice;
     }
 
     checkValueIsPositive (label, value) {
@@ -87,7 +104,7 @@ export default class ProductRuleBogoSpecialStrategy
      * Calculates the number of items that should have the discount applied to them
      * 
      * @param ShoppingCartLineItem lineItem 
-     * @return int
+     * @return number
      */
     getDiscountedItemsQty (lineItem) {
         if(this.limit) {
@@ -101,7 +118,7 @@ export default class ProductRuleBogoSpecialStrategy
      * Calculates the discounted pricing for the items that should be discounted
      * 
      * @param ShoppingCartLineItem lineItem 
-     * @returns float
+     * @returns number
      */
     getDiscountedItemsPricing (lineItem) {
         return lineItem.product.price - (lineItem.product.price * this.discount);

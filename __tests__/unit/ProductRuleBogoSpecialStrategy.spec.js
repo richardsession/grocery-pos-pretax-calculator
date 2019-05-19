@@ -119,4 +119,24 @@ describe('ProductRuleBogoSpecialStrategy', () => {
             const price = strategy.apply(lineItem);
         }).toThrowError();
     });
+
+    test('price is correct when special is applied without a limit', () => {
+        const product = new Product('chips', 2.29);
+        const lineItem = new ShoppingCartLineItem(product, 22);
+        const strategy = new ProductRuleBogoSpecialStrategy(3, 1, 0.5);
+
+        const total = strategy.apply(lineItem);
+
+        expect(total).toEqual(44.655);
+    });
+
+    test('price is correct when special is applied with a limit', () => {
+        const product = new Product('chips', 2.29);
+        const lineItem = new ShoppingCartLineItem(product, 20);
+        const strategy = new ProductRuleBogoSpecialStrategy(3, 1, 0.5, 8);
+
+        const total = strategy.apply(lineItem);
+
+        expect(total).toEqual(43.51);
+    });
 });
