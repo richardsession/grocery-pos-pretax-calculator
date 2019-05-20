@@ -64,4 +64,41 @@ describe('ShoppingCart class', () => {
         expect(Object.keys(consolidateItems)).toHaveLength(3);
         expect(consolidateItems['grapes'].lineItem.quantity).toEqual(6.42);
     });
+
+    test('shopping cart calculates the correct pre-tax total of the line items without any specials or markdowns applied', () => {
+        const product = new Product('almonds', 7.99);
+        const product2 = new Product('grapes', 2.39);
+        const product3 = new Product('butter', 3.99);
+        const lineItem = new ShoppingCartLineItem(product, 1);
+        const lineItem2 = new ShoppingCartLineItem(product2, 4.32);
+        const lineItem3 = new ShoppingCartLineItem(product3, 2);
+        const lineItem4 = new ShoppingCartLineItem(product2, 2.1);
+        const cart = new ShoppingCart();
+
+        cart.add(lineItem);
+        cart.add(lineItem2);
+        cart.add(lineItem3);
+        cart.add(lineItem4);
+
+        const total = cart.getPreTaxTotal();
+
+        expect(Number(total.toFixed(2))).toEqual(31.31);
+    });
+
+    test('shopping cart calculates the correct pre-tax total of the line items with markdowns applied', () => {
+        const product = new Product('almonds', 7.99);
+        const product2 = new Product('grapes', 2.39);
+        const lineItem = new ShoppingCartLineItem(product, 1);
+        const lineItem2 = new ShoppingCartLineItem(product2, 4.32);
+        const cart = new ShoppingCart();
+
+        product.markdown = new ProductRuleMarkdownStrategy(0.49);
+
+        cart.add(lineItem);
+        cart.add(lineItem2);
+
+        const total = cart.getPreTaxTotal();
+
+        expect(Number(total.toFixed(2))).toEqual(17.82);
+    });
 });
