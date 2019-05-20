@@ -15,4 +15,14 @@ export default class ShoppingCart
 	add (lineItem) {
 		this.cart.push(lineItem);
 	}
+
+	/**
+	 * Removes an item from the shopping cart
+	 * 
+	 * @param int idx 	Array index of the shopping cart item 
+	 * @returns void
+	 */
+	remove (idx) {
+		this.cart.splice(idx, 1);
+	}
 }
