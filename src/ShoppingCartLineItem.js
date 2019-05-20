@@ -28,6 +28,10 @@ export default class ShoppingCartLineItem
 	}
 
 	getTotal () {
+		if(this.product.special && this.product.special.qualifies(this)) {
+			return this.product.special.apply(this);
+		}
+
 		if(this.product.markdown) {
 			return this.product.markdown.apply(this) * this.quantity;
 		}
