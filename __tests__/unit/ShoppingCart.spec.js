@@ -62,6 +62,6 @@ describe('ShoppingCart class', () => {
         const consolidateItems = cart.consolidateLineItems();
 
         expect(Object.keys(consolidateItems)).toHaveLength(3);
-        expect(consolidateItems['grapes'].quantity).toEqual(6.42);
+        expect(consolidateItems['grapes'].lineItem.quantity).toEqual(6.42);
     });
 });

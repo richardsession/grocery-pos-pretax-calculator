@@ -43,15 +43,14 @@ export default class ShoppingCart
 		for(let i = 0; i < this.cart.length; i++) {
 			if(!items[this.cart[i].product.id]) {
 				items[this.cart[i].product.id] = {
-					quantity: this.cart[i].quantity,
 					lineItem: this.cart[i],
 				};
 
 				continue;
 			}
 
-			// Increment the quantity if product already existed
-			items[this.cart[i].product.id].quantity += this.cart[i].quantity;
+			// Update the quantity of the line item object in order for one of them to have the aggregate of the quantities of the same related product.
+			items[this.cart[i].product.id].lineItem.quantity += this.cart[i].quantity;
 		}
 
 		return items;
