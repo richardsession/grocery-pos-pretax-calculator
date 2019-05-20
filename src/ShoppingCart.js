@@ -3,14 +3,16 @@
 export default class ShoppingCart
 {
 	constructor () {
-		this._cart = [];
+		this.cart = [];
 	}
 
-	get cart () {
-		return this._cart;
-	}
-
-	set cart (cart) {
-		this._cart = cart;
+	/**
+	 * Add item to the shopping cart
+	 * 
+	 * @param ShoppingCartLineItem lineItem 
+	 * @returns void
+	 */
+	add (lineItem) {
+		this.cart.push(lineItem);
 	}
 }

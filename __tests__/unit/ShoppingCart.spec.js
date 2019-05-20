@@ -13,13 +13,16 @@ describe('ShoppingCart class', () => {
 
     });
 
-    test('object properties are set correctly', () => {
+    test('adds line item to shopping cart', () => {
+        const product = new Product('gummy bears', 2.19);
+        const lineItem = new ShoppingCartLineItem(product, 2);
         const cart = new ShoppingCart();
 
-        expect(cart.cart).toEqual([]);
+        cart.add(lineItem);
 
-        cart.cart = [];
-
-        expect(cart.cart).toEqual([]);
+        expect(cart.cart).toHaveLength(1);
+        expect(cart.cart[0]).toEqual(lineItem);
     });
+
+
 });
