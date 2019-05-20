@@ -8,6 +8,8 @@
  * If the total quantity of the line item is between qtyNeeded and qtyNeeded + qtyDiscounted, then
  * apply the special. Otherwise, the line item does not qualify for the special.
  * 
+ * TODO: qtyDiscounted <= qtyNeeded
+ * 
  */
 export default class ProductRuleBogoComparisoinSpecialStrategy
 {
