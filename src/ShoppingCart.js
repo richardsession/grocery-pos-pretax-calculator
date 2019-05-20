@@ -24,7 +24,7 @@ export default class ShoppingCart
 	 */
 	remove (idx) {
 		if(!this.cart[idx]) {
-			throw new Error('Unable to locate the item within the shopping cart's);
+			throw new Error('Unable to locate the item within the shopping cart\'s');
 		}
 
 		this.cart.splice(idx, 1);
@@ -44,7 +44,7 @@ export default class ShoppingCart
 			if(!items[this.cart[i].product.id]) {
 				items[this.cart[i].product.id] = {
 					quantity: this.cart[i].quantity,
-					product: this.cart[i].product,
+					lineItem: this.cart[i],
 				};
 
 				continue;
