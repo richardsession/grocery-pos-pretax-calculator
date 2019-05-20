@@ -101,4 +101,50 @@ describe('ShoppingCart class', () => {
 
         expect(Number(total.toFixed(2))).toEqual(17.82);
     });
+
+    test('shopping cart calculates the correct pre-tax total of the line items with specials applied', () => {
+        const product = new Product('almonds', 7.99);
+        const product2 = new Product('grapes', 2.39);
+        const lineItem = new ShoppingCartLineItem(product, 4);
+        const lineItem2 = new ShoppingCartLineItem(product2, 4.32);
+        const cart = new ShoppingCart();
+
+        product.special = new ProductRuleBogoSpecialStrategy(2, 1, 0.3);
+
+        cart.add(lineItem);
+        cart.add(lineItem2);
+
+        const total = cart.getPreTaxTotal();
+
+        expect(Number(total.toFixed(2))).toEqual(39.89);
+    });
+
+    test('shopping cart calculates the correct pre-tax total of the line items with specials applied when product is removed', () => {
+        const product = new Product('almonds', 7.99);
+        const product2 = new Product('grapes', 2.39);
+        const lineItem = new ShoppingCartLineItem(product, 4);
+        const lineItem2 = new ShoppingCartLineItem(product2, 4.32);
+        const cart = new ShoppingCart();
+
+        product.special = new ProductRuleBogoSpecialStrategy(2, 1, 0.3);
+
+        cart.add(lineItem);
+        cart.add(lineItem2);
+
+        let total = cart.getPreTaxTotal();
+
+        expect(Number(total.toFixed(2))).toEqual(39.89);
+
+        cart.remove(0);
+
+        total = cart.getPreTaxTotal();
+
+        expect(Number(total.toFixed(2))).toEqual(10.32);
+
+        cart.remove(0);
+
+        total = cart.getPreTaxTotal();
+
+        expect(total).toEqual(0);
+    });
 });
