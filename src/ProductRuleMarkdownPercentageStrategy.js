@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * Markdown that reduces the MSRP by a percentage.
+ */
 export default class ProductRuleMarkdownPercentageStrategy
 {
     constructor (markdownPercent) {
@@ -18,6 +21,12 @@ export default class ProductRuleMarkdownPercentageStrategy
         this._markdown = markdown;
     }
 
+    /**
+     * Applies the special to the line item
+     * 
+     * @param ShoppingCartLineItem lineItem 
+     * @returns number
+     */
     apply (lineItem) {
         const finalPrice = lineItem.product.price - (lineItem.product.price * this.markdown);
 

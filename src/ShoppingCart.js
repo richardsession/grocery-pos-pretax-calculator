@@ -43,9 +43,9 @@ export default class ShoppingCart
 	}
 
 	/**
-	 * Consolidates the line items in the cart in order to aggregate the quantities of repeat items with the associated product.
-	 * Also allows multiple products of the same id but added to the cart at different times to be removed from the cart
-	 * instead of decreasing its overall quantity.
+	 * Consolidates the line items in the cart in order to aggregate the quantities of repeat items with 
+	 * the associated line item product. Also allows multiple products of the same id to be added to the 
+	 * cart at different times to be removed from the cart instead of decreasing its overall quantity.
 	 * 
 	 * @returns array
 	 */
@@ -53,6 +53,7 @@ export default class ShoppingCart
 		const items = [];
 
 		for(let i = 0; i < this.cart.length; i++) {
+			// Add to array if a reference to the product in the line item does not exist
 			if(!items[this.cart[i].product.id]) {
 				items[this.cart[i].product.id] = {
 					lineItem: this.cart[i],
@@ -61,7 +62,8 @@ export default class ShoppingCart
 				continue;
 			}
 
-			// Update the quantity of the line item object in order for one of them to have the aggregate of the quantities of the same related product.
+			// Update the quantity of the line item object in order for one of them to have the aggregate 
+			// of the quantities of the same related product. Allows the proper activation of a special.
 			items[this.cart[i].product.id].lineItem.quantity += this.cart[i].quantity;
 		}
 

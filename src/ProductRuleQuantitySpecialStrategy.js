@@ -76,6 +76,12 @@ export default class ProductRuleQuantitySpecialStrategy
         return (lineItem.quantity >= this.quantity);
     }
 
+    /**
+     * Calculates the quantity of items that should be computed using the MSRP
+     * 
+     * @param ShoppingCartLineItem lineItem 
+     * @returns number
+     */
     getRegularPricedItemsQty (lineItem) {
         if(this.limit && lineItem.quantity > this.limit) {
             return lineItem.quantity - this.limit;
@@ -84,6 +90,12 @@ export default class ProductRuleQuantitySpecialStrategy
         return lineItem.quantity % this.quantity;
     }
 
+    /**
+     * Calculates the number of specials that are present with the quantity
+     * 
+     * @param ShoppingCartLineItem lineItem 
+     * @returns number
+     */
     getNumSpecials (lineItem) {
         if(this.limit && lineItem.quantity >= this.limit) {
             return this.limit / this.quantity;

@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Buy one, get one special for products
+ * Buy one, get one special for products. Also applies a limit to the special.
  * E.g., Buy 2, get 1 for half off.
  * 
  * TODO: Make sure limit is evenly-divisible by (qtyNeeded + qtyDiscounted)
