@@ -1,0 +1,36 @@
+{
+	"name": "ProductRuleBogoSpecialStrategySchema",
+	"properties": {
+		"_qtyNeeded": [
+			{
+                "type": "isNumber",
+                "constraints": [false, false]
+            },
+            {
+                "type": "isPositive"
+            }
+		],
+		"_qtyDiscounted": [
+			{
+				"type": "isNumber",
+				"constraints": [false, false]
+			},
+			{
+				"type": "isPositive"
+			}
+        ],
+        "_discount": [
+			{
+				"type": "isNumber",
+				"constraints": [false, false]
+			},
+			{
+				"type": "isPositive"
+            },
+            {
+                "type": "max",
+                "constraints": [1]
+            }
+        ]
+	}
+}

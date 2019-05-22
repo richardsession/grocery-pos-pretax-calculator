@@ -1,0 +1,23 @@
+{
+    "name": "ProductRuleQuantitySpecialStrategySchema",
+	"properties": {
+		"_quantity": [
+			{
+                "type": "isNumber",
+                "constraints": [false, false]
+            },
+            {
+                "type": "isPositive"
+            }
+        ],
+        "_price": [
+            {
+                "type": "isNumber",
+                "constraints": [false, false]
+            },
+            {
+                "type": "isPositive"
+            }
+        ]
+	}
+}

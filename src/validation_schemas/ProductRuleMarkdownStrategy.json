@@ -1,0 +1,14 @@
+{
+    "name": "ProductRuleMarkdownStrategySchema",
+	"properties": {
+		"_markdown": [
+			{
+                "type": "isNumber",
+                "constraints": [false, false]
+            },
+            {
+                "type": "isPositive"
+            }
+		]
+	}
+}

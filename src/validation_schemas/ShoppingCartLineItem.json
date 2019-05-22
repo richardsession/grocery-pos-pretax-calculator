@@ -1,12 +1,7 @@
 {
 	"name": "ShoppingCartLineItemSchema",
 	"properties": {
-		"_id": [
-			{
-				"type": "isString"
-			}
-		],
-		"_price": [
+		"_quantity": [
 			{
 				"type": "isNumber",
 				"constraints": [false, false]
