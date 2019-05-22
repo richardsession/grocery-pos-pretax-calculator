@@ -61,12 +61,12 @@ export default class ProductRuleBogoComparisoinSpecialStrategy
      */
     apply (lineItem) {
         if(!this.qualifies(lineItem)) {
-            throw new Error('Unable to apply the BOGO special on product: ' + lineItem.product.getId());
+            throw new Error('Unable to apply the BOGO special on product: ' + lineItem.getProduct().getId());
         }
 
         const discountQty = lineItem.quantity - this.qtyNeeded;
-        const discountTotal = discountQty * (lineItem.product.price - (lineItem.product.price * this.discount));
-        const regularPriceTotal = lineItem.product.price * this.qtyNeeded;
+        const discountTotal = discountQty * (lineItem.getProduct().price - (lineItem.getProduct().price * this.discount));
+        const regularPriceTotal = lineItem.getProduct().price * this.qtyNeeded;
 
         return discountTotal + regularPriceTotal;
     }
