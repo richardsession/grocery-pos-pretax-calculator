@@ -61,7 +61,7 @@ export default class ProductRuleBogoComparisoinSpecialStrategy
      */
     apply (lineItem) {
         if(!this.qualifies(lineItem)) {
-            throw new Error('Unable to apply the BOGO special on product: ' + lineItem.product.id);
+            throw new Error('Unable to apply the BOGO special on product: ' + lineItem.product.getId());
         }
 
         const discountQty = lineItem.quantity - this.qtyNeeded;

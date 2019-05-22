@@ -14,7 +14,7 @@ describe('Product class', () => {
     });
 
     test('can retrieve the correct id of the product', () => {
-        expect(product.id).toEqual('bananas');
+        expect(product.getId()).toEqual('bananas');
     });
 
     test('can retrieve the correct price of the product', () => {
@@ -24,13 +24,13 @@ describe('Product class', () => {
     test('setting price to negative number during instantiation throws error', () => {
         expect(() => {
             const product = new Product('bananas', -0.56);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('changing price to negative number after object instantiation throws error', () => {
         expect(() => {
             product.price = -0.58;
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('sets markdown strategy correctly', () => {

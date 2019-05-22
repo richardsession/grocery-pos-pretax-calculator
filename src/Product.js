@@ -1,9 +1,15 @@
 'use strict';
 
+import { validateSync } from 'class-validator';
+require('./validation_schemas/Product');
+
 export default class Product
 {
 	constructor (id, price) {
-		this.checkPrice(price);
+		this.validate(Product.getValidationSchemaName(), {
+			_id: id,
+			_price: price
+		});
 		
 		this._id = id;
 		this._price = price;
@@ -11,21 +17,15 @@ export default class Product
 		this._specialStrategy = null;
 	}
 
-	get id () {
-		return this._id;
-	}
-
-	set id (id) {
-		this._id = id;
-	}
-
 	get price () {
 		return this._price;
 	}
 
-	set price (price) {
-		this.checkPrice(price);
-		
+	set price (price) {	
+		this.validate(Product.getValidationSchemaName(), {
+			_price: price,
+		});
+
 		this._price = price;
 	} 
 
@@ -45,9 +45,19 @@ export default class Product
 		this._specialStrategy = specialStrategy;
 	}
 
-	checkPrice (price) {
-		if(price < 0) {
-			throw new Error('The price of the product must be greater than or equal to 0.');
+	getId () {
+		return this._id;
+	}
+
+	validate (validationSchema, obj) {
+		const validation = validateSync(validationSchema, obj);
+
+		if(validation.length > 0) {
+			throw validation;
 		}
+	}
+
+	static getValidationSchemaName () {
+		return 'ProductSchema';
 	}
 }

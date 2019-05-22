@@ -51,7 +51,7 @@ export default class ProductRuleQuantitySpecialStrategy
      */
     apply (lineItem) {
         if(!this.qualifies(lineItem)) {
-            throw new Error('Unable to apply the quantity special for product: ' + lineItem.product.id);
+            throw new Error('Unable to apply the quantity special for product: ' + lineItem.product.getId());
         }
 
         const regularPricedItemsTotal = this.getRegularPricedItemsQty(lineItem) * lineItem.product.price;
