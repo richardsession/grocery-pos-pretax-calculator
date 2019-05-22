@@ -18,19 +18,19 @@ describe('ProductRuleMarkdownPercentageStrategy class', () => {
     test('throws error if markdown is greater than 1', () => {
         expect(() => {
             const strategy = new ProductRuleMarkdownPercentageStrategy(1.1);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('throws error if markdown is less than 0', () => {
         expect(() => {
             const strategy = new ProductRuleMarkdownPercentageStrategy(-0.1);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('throws error if markdown is not a number', () => {
         expect(() => {
             const strategy = new ProductRuleMarkdownPercentageStrategy('10%');
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('markdown percentage set correctly after instantiation', () => {
@@ -50,15 +50,15 @@ describe('ProductRuleMarkdownPercentageStrategy class', () => {
 
         expect(() => {
             strategy.markdown = -0.6;
-        }).toThrowError();
+        }).toThrow();
 
         expect(() => {
             strategy.markdown = 1.0544;
-        }).toThrowError();
+        }).toThrow();
 
         expect(() => {
             strategy.markdown = '25%';
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('markdown percentage is correct for unit-price based product', () => {
@@ -90,7 +90,7 @@ describe('ProductRuleMarkdownPercentageStrategy class', () => {
 
         expect(() => {
             strategy.markdown = 1.492;
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('throws error when markdown percentage is less than 0', () => {
@@ -102,7 +102,7 @@ describe('ProductRuleMarkdownPercentageStrategy class', () => {
 
         expect(() => {
             strategy.markdown = -0.485;
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('throws error when markdown percentage is not a number', () => {
@@ -114,6 +114,6 @@ describe('ProductRuleMarkdownPercentageStrategy class', () => {
 
         expect(() => {
             strategy.markdown = '10%';
-        }).toThrowError();
+        }).toThrow();
     });
 });

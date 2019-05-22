@@ -21,19 +21,19 @@ describe('ProductRuleBogoSpecialStrategy', () => {
     test('throws error when instantiating an object with a negative quantity needed', () => {
         expect(() => {
             const strategy = new ProductRuleBogoSpecialStrategy(-2, 1, 0.5);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('throws error when instantiating an object with a negative quantity that is discounted', () => {
         expect(() => {
             const strategy = new ProductRuleBogoSpecialStrategy(2, -1, 0.5);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('throws error when instantiating an object with a negative discount amount', () => {
         expect(() => {
             const strategy = new ProductRuleBogoSpecialStrategy(2, 1, -0.5);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('limit quantity is set correct', () => {
@@ -138,5 +138,19 @@ describe('ProductRuleBogoSpecialStrategy', () => {
         const total = strategy.apply(lineItem);
 
         expect(total).toEqual(43.51);
+    });
+
+    test('can set discount after instantiation', () => {
+        const product = new Product('chips', 2.29);
+        const lineItem = new ShoppingCartLineItem(product, 20);
+        const strategy = new ProductRuleBogoSpecialStrategy(3, 1, 0.5, 8);
+
+        strategy.discount = 0.4;
+
+        expect(strategy.discount).toEqual(0.4);
+
+        expect(() => {
+            strategy.discount = -1;
+        }).toThrow();
     });
 });

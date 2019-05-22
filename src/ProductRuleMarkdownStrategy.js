@@ -1,24 +1,40 @@
 'use strict';
 
+import { validate } from './libs/validation';
+require('./validation_schemas');
+
 /**
  * Basic markdown that subtracts the markdownPrice from the MSRP of the product
  */
 export default class ProductRuleMarkdownStrategy
 {
-    constructor (markdownPrice) {
-        this.checkMarkdown(markdownPrice);
+    static VALIDATION_SCHEMA_NAME = 'ProductRuleMarkdownStrategySchema';
 
-        this._markdownPrice = markdownPrice;
+    #_markdown;
+
+    /**
+     * Constructor 
+     * 
+     * @param number markdownPrice  The total price (dollars and sense) that should be removed from the MSRP
+     */
+    constructor (markdownPrice) {
+        validate(ProductRuleMarkdownStrategy.VALIDATION_SCHEMA_NAME, {
+			_markdown: markdownPrice,
+        });
+
+        this.#_markdown = markdownPrice;
     }
 
     get markdown () {
-        return this._markdownPrice;
+        return this.#_markdown;
     }
 
     set markdown (markdownPrice) {
-        this.checkMarkdown(markdownPrice);
-
-        this._markdownPrice = markdownPrice;
+        validate(ProductRuleMarkdownStrategy.VALIDATION_SCHEMA_NAME, {
+			_markdown: markdownPrice,
+        });
+        
+        this.#_markdown = markdownPrice;
     }
 
     /**
@@ -35,11 +51,5 @@ export default class ProductRuleMarkdownStrategy
         }
 
         return finalPrice;
-    }
-
-    checkMarkdown (markdownPrice) {
-        if(markdownPrice < 0) {
-            throw new Error('Markdown price cannot be less than 0');
-        }
     }
 }

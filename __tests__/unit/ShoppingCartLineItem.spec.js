@@ -25,7 +25,7 @@ describe('ShoppingCartLineItem class', () => {
         
         expect(() => {
             const lineItem = new ShoppingCartLineItem(product, -3);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('throws error if quantity is less than 0 after object instantiation', () => {
@@ -36,23 +36,8 @@ describe('ShoppingCartLineItem class', () => {
 
         expect(() => {
             lineItem.quantity = -3;
-        }).toThrowError();
+        }).toThrow();
     });
-
-    /* test('determines if product is a weighted product or not', () => {
-        const product = new Product('bananas', 0.69);
-        const lineItem = new ShoppingCartLineItem(product, 1.495);
-
-        let isWeightedProduct = lineItem.containsWeightedProduct();
-
-        expect(isWeightedProduct).toBe(true);
-
-        lineItem.quantity = 2;
-
-        isWeightedProduct = lineItem.containsWeightedProduct();
-
-        expect(isWeightedProduct).toBe(false);
-    }); */
 
     test('line item total for weight-based product is correct without any specials or markdowns applied', () => {
         const product = new Product('bananas', 0.69);

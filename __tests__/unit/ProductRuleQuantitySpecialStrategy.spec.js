@@ -20,19 +20,19 @@ describe('ProductRuleQuantitySpecialStrategy class', () => {
     test('throws error if quantity is less than 0', () => {
         expect(() => {
             const strategy = new ProductRuleQuantitySpecialStrategy(-3, 5);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('throws error if price is less than 0', () => {
         expect(() => {
             const strategy = new ProductRuleQuantitySpecialStrategy(3, -5);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('throws error if limit is less than 0', () => {
         expect(() => {
             const strategy = new ProductRuleQuantitySpecialStrategy(3, 5, -1);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('the line item qualifies for the special', () => {

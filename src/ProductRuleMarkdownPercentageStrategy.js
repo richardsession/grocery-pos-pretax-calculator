@@ -1,24 +1,40 @@
 'use strict';
 
+import { validate } from './libs/validation';
+require('./validation_schemas');
+
 /**
  * Markdown that reduces the MSRP by a percentage.
  */
 export default class ProductRuleMarkdownPercentageStrategy
 {
-    constructor (markdownPercent) {
-        this.checkMarkdown(markdownPercent);
+    static VALIDATION_SCHEMA_NAME = 'ProductRuleMarkdownPercentageStrategySchema';
 
-        this._markdown = markdownPercent;
+    #_markdown;
+
+    /**
+     * Constructor
+     * 
+     * @param number markdownPercent    The percentage that is to be removed from the MSRP
+     */
+    constructor (markdownPercent) {
+        validate(ProductRuleMarkdownPercentageStrategy.VALIDATION_SCHEMA_NAME, {
+			_markdown: markdownPercent,
+        });
+        
+        this.#_markdown = markdownPercent;
     }
 
     get markdown () {
-        return this._markdown
+        return this.#_markdown
     }
 
-    set markdown (markdown) {
-        this.checkMarkdown(markdown);
+    set markdown (markdownPercent) {
+        validate(ProductRuleMarkdownPercentageStrategy.VALIDATION_SCHEMA_NAME, {
+			_markdown: markdownPercent,
+        });
 
-        this._markdown = markdown;
+        this.#_markdown = markdownPercent;
     }
 
     /**
@@ -35,19 +51,5 @@ export default class ProductRuleMarkdownPercentageStrategy
         }
 
         return finalPrice;
-    }
-
-    checkMarkdown (markdownPercent) {
-        if(markdownPercent < 0) {
-            throw new Error('Markdown percentage cannot be less than 0');
-        }
-
-        if(markdownPercent > 1) {
-            throw new Error('Markdown percentage cannot be more than 1');
-        }
-
-        if(typeof markdownPercent !== 'number') {
-            throw new Error('The markdown percentage must be a number');
-        }
     }
 }

@@ -14,7 +14,7 @@ describe('ProductRuleMarkdownStrategy class', () => {
     test('throws error when the markdown price is less than 0', () => {
         expect(() => {
             const strategy = new ProductRuleMarkdownStrategy(-0.35);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('can set markdown price after object construction', () => {
@@ -34,7 +34,7 @@ describe('ProductRuleMarkdownStrategy class', () => {
 
         expect(() => {
             strategy.markdown = -0.75;
-        }).toThrowError();
+        }).toThrow();
 
         expect(strategy.markdown).toEqual(0.5);
     });

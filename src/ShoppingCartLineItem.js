@@ -1,26 +1,43 @@
 'use strict';
 
+import { validate } from './libs/validation';
+require('./validation_schemas');
+
 export default class ShoppingCartLineItem
 {
-	constructor (product, quantity) {
-		this.checkValue(quantity);
+	static VALIDATION_SCHEMA_NAME = 'ShoppingCartLineItemSchema';
 
-		this._product = product;
-		this._quantity = quantity;
+	#_product;
+	#_quantity;
+
+	/**
+	 * 
+	 * @param Product product 	Product instance
+	 * @param number quantity 	The quantity of the Product instance (units or weight)
+	 */
+	constructor (product, quantity) {
+		validate(ShoppingCartLineItem.VALIDATION_SCHEMA_NAME, {
+			_quantity: quantity
+		});
+
+		this.#_product = product;
+		this.#_quantity = quantity;
 	}
 
 	get product () {
-		return this._product;
+		return this.#_product;
 	}
 
 	get quantity () {
-		return this._quantity;
+		return this.#_quantity;
 	}
 
 	set quantity (quantity) {
-		this.checkValue(quantity);
+		validate(ShoppingCartLineItem.VALIDATION_SCHEMA_NAME, {
+			_quantity: quantity,
+		});
 
-		this._quantity = quantity;
+		this.#_quantity = quantity;
 	}
 
 	getTotal () {
@@ -33,11 +50,5 @@ export default class ShoppingCartLineItem
 		}
 
 		return this.product.price * this.quantity;
-	}
-
-	checkValue (value) {
-		if(value < 0) {
-			throw new Error('line item quantity must be greater than 0');
-		}
 	}
 }

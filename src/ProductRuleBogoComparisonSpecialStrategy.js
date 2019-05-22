@@ -16,52 +16,71 @@ require('./validation_schemas');
  */
 export default class ProductRuleBogoComparisonSpecialStrategy
 {
+    static VALIDATION_SCHEMA_NAME = 'ProductRuleBogoComparisonSpecialStrategySchema';
+
+    #_qtyNeeded;
+    #_qtyDiscounted;
+    #_discount;
+
+    /**
+     * Constructor
+     * 
+     * @param number qtyNeeded      The quantity needed for the special (an integer)
+     * @param number qtyDiscounted  The quantity that should have the discount applied do it (an integer)
+     * @param number discount       The amount of the discount (a percentage)
+     */
     constructor (qtyNeeded, qtyDiscounted, discount) {
-        validate(ProductRuleBogoComparisonSpecialStrategy.getValidationSchemaName(), {
+        validate(ProductRuleBogoComparisonSpecialStrategy.VALIDATION_SCHEMA_NAME, {
 			_qtyNeeded: qtyNeeded,
             _qtyDiscounted: qtyDiscounted,
             _discount: discount
         });
         
-        this._qtyNeeded = qtyNeeded;
-        this._qtyDiscounted = qtyDiscounted;
-        this._discount = discount;
+        this.#_qtyNeeded = qtyNeeded;
+        this.#_qtyDiscounted = qtyDiscounted;
+        this.#_discount = discount;
     }
 
     get qtyNeeded () {
-        return this._qtyNeeded;
+        return this.#_qtyNeeded;
     }
 
     set qtyNeeded (qtyNeeded) {
-        validate(ProductRuleBogoComparisonSpecialStrategy.getValidationSchemaName(), {
-			_qtyNeeded: qtyNeeded,
+        validate(ProductRuleBogoComparisonSpecialStrategy.VALIDATION_SCHEMA_NAME, {
+            _qtyNeeded: qtyNeeded,
+            _qtyDiscounted: this.gtyDiscounted,
+            _discount: this.discount,
         });
 
-        this._qtyNeeded = qtyNeeded
+        this.#_qtyNeeded = qtyNeeded
     }
 
     get qtyDiscounted () {
-        return this._qtyDiscounted;
+        return this.#_qtyDiscounted;
     }
 
     set gtyDiscounted (qtyDiscounted) {
-        validate(ProductRuleBogoComparisonSpecialStrategy.getValidationSchemaName(), {
-			_qtyDiscounted: qtyDiscounted,
+        validate(ProductRuleBogoComparisonSpecialStrategy.VALIDATION_SCHEMA_NAME, {
+            _qtyDiscounted: qtyDiscounted,
+            _qtyNeeded: this.qtyNeeded,
+            _discount: this.discount,
         });
 
-        this._qtyDiscounted = qtyDiscounted;
+        this.#_qtyDiscounted = qtyDiscounted;
     }
 
     get discount () {
-        return this._discount;
+        return this.#_discount;
     }
 
     set discount(discount) {
-        validate(ProductRuleBogoComparisonSpecialStrategy.getValidationSchemaName(), {
-			_discount: discount,
+        validate(ProductRuleBogoComparisonSpecialStrategy.VALIDATION_SCHEMA_NAME, {
+            _discount: discount,
+            _qtyDiscounted: this.qtyDiscounted,
+            _qtyNeeded: this.qtyNeeded,
         });
 
-        this._discount = discount;
+        this.#_discount = discount;
     }
 
     /**
@@ -91,8 +110,4 @@ export default class ProductRuleBogoComparisonSpecialStrategy
     qualifies (lineItem) {
         return this.qtyNeeded <= lineItem.quantity && lineItem.quantity <= (this.qtyNeeded + this.qtyDiscounted);
     }
-
-    static getValidationSchemaName () {
-		return 'ProductRuleBogoComparisonSpecialStrategySchema';
-	}
 }

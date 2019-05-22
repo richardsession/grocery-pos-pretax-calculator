@@ -1,46 +1,74 @@
 'use strict';
 
+import { validate } from './libs/validation';
+require('./validation_schemas');
+
 /**
  * Quantity special for products.
  * E.g., 3 for $5, 6 for $10, etc.
  */
 export default class ProductRuleQuantitySpecialStrategy
 {
+    static VALIDATION_SCHEMA_NAME = 'ProductRuleQuantitySpecialStrategySchema';
+
+    #_quantity;
+    #_price;
+    #_limit;
+
+    /**
+     * Constructor
+     * 
+     * @param number quantity   The number of products that could trigger this special
+     * @param number price      The total price for the collection of products in the {quantity}
+     * @param number limit      The total number of products that can be included in the special
+     */
     constructor (quantity, price, limit = null) {
-        this.checkValueIsPositive('quantity', quantity);
-        this.checkValueIsPositive('price', price);
+        validate(ProductRuleQuantitySpecialStrategy.VALIDATION_SCHEMA_NAME, {
+			_quantity: quantity,
+			_price: price
+        });
 
-        if(limit) {
-            this.checkValueIsPositive('limit', limit);
-        }
-
-        this._quantity = quantity;
-        this._price = price;
-        this._limit = limit;
+        this.validateLimit(limit);
+        
+        this.#_quantity = quantity;
+        this.#_price = price;
+        this.#_limit = limit;
     }
 
     get quantity () {
-        return this._quantity;
+        return this.#_quantity;
     }
 
     set quantity (quantity) {
-        this._quantity = quantity;
+        validate(ProductRuleQuantitySpecialStrategy.VALIDATION_SCHEMA_NAME, {
+			_quantity: quantity,
+			_price: this.price
+        });
+
+        this.#_quantity = quantity;
     }
 
     get price () {
-        return this._price;
+        return this.#_price;
     }
 
     set price (price) {
-        this._price = price;
+        validate(ProductRuleQuantitySpecialStrategy.VALIDATION_SCHEMA_NAME, {
+			_price: price,
+			_quantity: this.quantity,
+        });
+
+        this.#_price = price;
     }
 
     get limit () {
-        return this._limit;
+        return this.#_limit;
     }
 
     set limit (limit) {
-        this._limit = limit;
+        this.validateLimit(limit);
+
+        this.#_limit = limit;
     }
 
     /**
@@ -58,12 +86,6 @@ export default class ProductRuleQuantitySpecialStrategy
         const salePricedItemsTotal = this.getNumSpecials(lineItem) * this.price;
 
         return regularPricedItemsTotal + salePricedItemsTotal;
-    }
-
-    checkValueIsPositive (label, value) {
-        if(value < 0) {
-            throw new Error(label + ' cannot have a value less than 0');
-        }
     }
 
     /**
@@ -102,5 +124,18 @@ export default class ProductRuleQuantitySpecialStrategy
         }
 
         return Math.floor(lineItem.quantity / this.quantity);
+    }
+
+    /**
+     * Make sure limit is positive and is an integer
+     * 
+     * @param number limit 
+     * @returns void
+     * @throws Error
+     */
+    validateLimit (limit) {
+        if(limit && limit < 0 && limit % 1 === 0) {
+            throw new Error('The limit parameter must be an integer and greater than 0');
+        }
     }
 }

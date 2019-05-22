@@ -2,8 +2,14 @@
 
 export default class ShoppingCart
 {
+	#_cart;
+
 	constructor () {
-		this.cart = [];
+		this.#_cart = [];
+	}
+
+	get cart () {
+		return this.#_cart;
 	}
 
 	/**
@@ -13,7 +19,7 @@ export default class ShoppingCart
 	 * @returns void
 	 */
 	add (lineItem) {
-		this.cart.push(lineItem);
+		this.#_cart.push(lineItem);
 	}
 
 	/**
@@ -23,11 +29,11 @@ export default class ShoppingCart
 	 * @returns void
 	 */
 	remove (idx) {
-		if(!this.cart[idx]) {
+		if(!this.#_cart[idx]) {
 			throw new Error('Unable to locate the item within the shopping cart\'s');
 		}
 
-		this.cart.splice(idx, 1);
+		this.#_cart.splice(idx, 1);
 	}
 
 	getPreTaxTotal () {
@@ -52,11 +58,11 @@ export default class ShoppingCart
 	consolidateLineItems () {
 		const items = [];
 
-		for(let i = 0; i < this.cart.length; i++) {
+		for(let i = 0; i < this.#_cart.length; i++) {
 			// Add to array if a reference to the product in the line item does not exist
-			if(!items[this.cart[i].product.id]) {
-				items[this.cart[i].product.id] = {
-					lineItem: this.cart[i],
+			if(!items[this.#_cart[i].product.id]) {
+				items[this.#_cart[i].product.id] = {
+					lineItem: this.#_cart[i],
 				};
 
 				continue;
@@ -64,7 +70,7 @@ export default class ShoppingCart
 
 			// Update the quantity of the line item object in order for one of them to have the aggregate 
 			// of the quantities of the same related product. Allows the proper activation of a special.
-			items[this.cart[i].product.id].lineItem.quantity += this.cart[i].quantity;
+			items[this.#_cart[i].product.id].lineItem.quantity += this.#_cart[i].quantity;
 		}
 
 		return items;
