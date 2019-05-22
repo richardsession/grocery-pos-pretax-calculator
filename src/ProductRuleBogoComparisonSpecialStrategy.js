@@ -11,8 +11,6 @@ require('./validation_schemas');
  * If the total quantity of the line item is between qtyNeeded and qtyNeeded + qtyDiscounted, then
  * apply the special. Otherwise, the line item does not qualify for the special.
  * 
- * TODO: qtyDiscounted <= qtyNeeded
- * 
  */
 export default class ProductRuleBogoComparisonSpecialStrategy
 {
@@ -35,6 +33,8 @@ export default class ProductRuleBogoComparisonSpecialStrategy
             _qtyDiscounted: qtyDiscounted,
             _discount: discount
         });
+
+        this.validateQtyDiscounted(qtyNeeded, qtyDiscounted);
         
         this.#_qtyNeeded = qtyNeeded;
         this.#_qtyDiscounted = qtyDiscounted;
@@ -52,6 +52,8 @@ export default class ProductRuleBogoComparisonSpecialStrategy
             _discount: this.discount,
         });
 
+        this.validateQtyDiscounted(qtyNeeded, this.qtyDiscounted);
+
         this.#_qtyNeeded = qtyNeeded
     }
 
@@ -59,12 +61,14 @@ export default class ProductRuleBogoComparisonSpecialStrategy
         return this.#_qtyDiscounted;
     }
 
-    set gtyDiscounted (qtyDiscounted) {
+    set qtyDiscounted (qtyDiscounted) {
         validate(ProductRuleBogoComparisonSpecialStrategy.VALIDATION_SCHEMA_NAME, {
             _qtyDiscounted: qtyDiscounted,
             _qtyNeeded: this.qtyNeeded,
             _discount: this.discount,
         });
+
+        this.validateQtyDiscounted(this.qtyNeeded, qtyDiscounted);
 
         this.#_qtyDiscounted = qtyDiscounted;
     }
@@ -109,5 +113,17 @@ export default class ProductRuleBogoComparisonSpecialStrategy
      */
     qualifies (lineItem) {
         return this.qtyNeeded <= lineItem.quantity && lineItem.quantity <= (this.qtyNeeded + this.qtyDiscounted);
+    }
+
+    /**
+     * Ensure that the quantity needed for the discount is greater than the quantity being discounted
+     * 
+     * @param number qtyNeeded 
+     * @param number qtyDiscounted 
+     */
+    validateQtyDiscounted (qtyNeeded, qtyDiscounted) {
+        if(qtyNeeded < qtyDiscounted) {
+            throw new Error('The quantity discounted must be less than or equal to the quantity needed for the special');
+        }
     }
 }

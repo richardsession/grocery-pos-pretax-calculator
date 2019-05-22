@@ -100,4 +100,18 @@ describe('ProductRuleBogoComparisionSpecialStrategy', () => {
 
         expect(Number(total.toFixed(2))).toEqual(1.49);
     });
+
+    test('qtyNeeded is greater than or equal to qtyDiscounted', () => {
+        const strategy = new ProductRuleBogoComparisionSpecialStrategy(3, 2, 0.5);
+
+        expect(strategy.validateQtyDiscounted(3, 2)).toBe(undefined);
+
+        expect(() => {
+            strategy.qtyDiscounted = 4;
+        }).toThrowError();
+
+        expect(() => {
+            strategy.qtyDiscounted = 3;
+        }).not.toThrowError();
+    });
 });
