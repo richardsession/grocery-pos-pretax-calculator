@@ -1,12 +1,12 @@
 'use strict';
 
-import { validateSync } from 'class-validator';
-require('./validation_schemas/Product');
+import { validate } from './libs/validation';
+require('./validation_schemas');
 
 export default class Product
 {
 	constructor (id, price) {
-		this.validate(Product.getValidationSchemaName(), {
+		validate(Product.getValidationSchemaName(), {
 			_id: id,
 			_price: price
 		});
@@ -22,7 +22,7 @@ export default class Product
 	}
 
 	set price (price) {	
-		this.validate(Product.getValidationSchemaName(), {
+		validate(Product.getValidationSchemaName(), {
 			_price: price,
 		});
 
@@ -47,14 +47,6 @@ export default class Product
 
 	getId () {
 		return this._id;
-	}
-
-	validate (validationSchema, obj) {
-		const validation = validateSync(validationSchema, obj);
-
-		if(validation.length > 0) {
-			throw validation;
-		}
 	}
 
 	static getValidationSchemaName () {

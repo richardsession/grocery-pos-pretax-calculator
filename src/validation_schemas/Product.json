@@ -1,0 +1,19 @@
+{
+	"name": "ProductSchema",
+	"properties": {
+		"_id": [
+			{
+				"type": "isString"
+			}
+		],
+		"_price": [
+			{
+				"type": "isNumber",
+				"constraints": [false, false]
+			},
+			{
+				"type": "isPositive"
+			}
+		]
+	}
+}
