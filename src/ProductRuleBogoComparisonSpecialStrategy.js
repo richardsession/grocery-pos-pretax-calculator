@@ -1,5 +1,8 @@
 'use strict';
 
+import { validate } from './libs/validation';
+require('./validation_schemas');
+
 /**
  * Buy one, get one of equal or lesser value special for weighted products
  * E.g., Buy 2 lbs, get 1 lb for half off.
@@ -11,13 +14,15 @@
  * TODO: qtyDiscounted <= qtyNeeded
  * 
  */
-export default class ProductRuleBogoComparisoinSpecialStrategy
+export default class ProductRuleBogoComparisonSpecialStrategy
 {
     constructor (qtyNeeded, qtyDiscounted, discount) {
-        this.checkValueIsPositive('quantity needed', qtyNeeded);
-        this.checkValueIsPositive('discount quantity', qtyDiscounted);
-        this.checkValueIsPositive('discount', discount);
-
+        validate(ProductRuleBogoComparisonSpecialStrategy.getValidationSchemaName(), {
+			_qtyNeeded: qtyNeeded,
+            _qtyDiscounted: qtyDiscounted,
+            _discount: discount
+        });
+        
         this._qtyNeeded = qtyNeeded;
         this._qtyDiscounted = qtyDiscounted;
         this._discount = discount;
@@ -28,7 +33,9 @@ export default class ProductRuleBogoComparisoinSpecialStrategy
     }
 
     set qtyNeeded (qtyNeeded) {
-        this.checkValueIsPositive('quantity needed', qtyNeeded);
+        validate(ProductRuleBogoComparisonSpecialStrategy.getValidationSchemaName(), {
+			_qtyNeeded: qtyNeeded,
+        });
 
         this._qtyNeeded = qtyNeeded
     }
@@ -38,7 +45,9 @@ export default class ProductRuleBogoComparisoinSpecialStrategy
     }
 
     set gtyDiscounted (qtyDiscounted) {
-        this.checkValueIsPositive('discount quantity', qtyDiscounted);
+        validate(ProductRuleBogoComparisonSpecialStrategy.getValidationSchemaName(), {
+			_qtyDiscounted: qtyDiscounted,
+        });
 
         this._qtyDiscounted = qtyDiscounted;
     }
@@ -48,7 +57,9 @@ export default class ProductRuleBogoComparisoinSpecialStrategy
     }
 
     set discount(discount) {
-        this.checkValueIsPositive('discount', discount);
+        validate(ProductRuleBogoComparisonSpecialStrategy.getValidationSchemaName(), {
+			_discount: discount,
+        });
 
         this._discount = discount;
     }
@@ -71,12 +82,6 @@ export default class ProductRuleBogoComparisoinSpecialStrategy
         return discountTotal + regularPriceTotal;
     }
 
-    checkValueIsPositive (label, value) {
-        if(value < 0) {
-            throw new Error(label + ' cannot have a value less than 0');
-        }
-    }
-
     /**
      * Determines if the special should be applied
      * 
@@ -86,4 +91,8 @@ export default class ProductRuleBogoComparisoinSpecialStrategy
     qualifies (lineItem) {
         return this.qtyNeeded <= lineItem.quantity && lineItem.quantity <= (this.qtyNeeded + this.qtyDiscounted);
     }
+
+    static getValidationSchemaName () {
+		return 'ProductRuleBogoComparisonSpecialStrategySchema';
+	}
 }

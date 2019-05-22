@@ -20,19 +20,19 @@ describe('ProductRuleBogoComparisionSpecialStrategy', () => {
     test('throws error when instantiating an object with a negative quantity needed', () => {
         expect(() => {
             const strategy = new ProductRuleBogoComparisionSpecialStrategy(-2, 1, 0.5);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('throws error when instantiating an object with a negative quantity that is discounted', () => {
         expect(() => {
             const strategy = new ProductRuleBogoComparisionSpecialStrategy(2, -1, 0.5);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('throws error when instantiating an object with a negative discount amount', () => {
         expect(() => {
             const strategy = new ProductRuleBogoComparisionSpecialStrategy(2, 1, -0.5);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('determine if the special should be applied', () => {
