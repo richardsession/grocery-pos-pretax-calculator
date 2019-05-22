@@ -17,6 +17,10 @@ export default class Product
 		this._specialStrategy = null;
 	}
 
+	get id () {
+		return this._id;
+	}
+
 	get price () {
 		return this._price;
 	}
@@ -43,10 +47,6 @@ export default class Product
 
 	set special (specialStrategy) {
 		this._specialStrategy = specialStrategy;
-	}
-
-	getId () {
-		return this._id;
 	}
 
 	static getValidationSchemaName () {

@@ -54,8 +54,8 @@ export default class ShoppingCart
 
 		for(let i = 0; i < this.cart.length; i++) {
 			// Add to array if a reference to the product in the line item does not exist
-			if(!items[this.cart[i].getProduct().getId()]) {
-				items[this.cart[i].getProduct().getId()] = {
+			if(!items[this.cart[i].product.id]) {
+				items[this.cart[i].product.id] = {
 					lineItem: this.cart[i],
 				};
 
@@ -64,7 +64,7 @@ export default class ShoppingCart
 
 			// Update the quantity of the line item object in order for one of them to have the aggregate 
 			// of the quantities of the same related product. Allows the proper activation of a special.
-			items[this.cart[i].getProduct().getId()].lineItem.quantity += this.cart[i].quantity;
+			items[this.cart[i].product.id].lineItem.quantity += this.cart[i].quantity;
 		}
 
 		return items;

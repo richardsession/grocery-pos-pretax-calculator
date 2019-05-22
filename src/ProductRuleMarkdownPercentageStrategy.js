@@ -28,10 +28,10 @@ export default class ProductRuleMarkdownPercentageStrategy
      * @returns number
      */
     apply (lineItem) {
-        const finalPrice = lineItem.getProduct().price - (lineItem.getProduct().price * this.markdown);
+        const finalPrice = lineItem.product.price - (lineItem.product.price * this.markdown);
 
         if(finalPrice < 0) {
-            throw new Error('The updated product price for ' + lineItem.getProduct().getId() + ' is less than 0.');
+            throw new Error('The updated product price for ' + lineItem.product.id + ' is less than 0.');
         }
 
         return finalPrice;

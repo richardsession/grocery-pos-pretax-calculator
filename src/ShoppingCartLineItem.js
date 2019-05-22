@@ -13,10 +13,6 @@ export default class ShoppingCartLineItem
 		return this._product;
 	}
 
-	set product (product) {
-		this._product = product;
-	}
-
 	get quantity () {
 		return this._quantity;
 	}

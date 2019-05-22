@@ -14,7 +14,7 @@ describe('Product class', () => {
     });
 
     test('can retrieve the correct id of the product', () => {
-        expect(product.getId()).toEqual('bananas');
+        expect(product.id).toEqual('bananas');
     });
 
     test('can retrieve the correct price of the product', () => {

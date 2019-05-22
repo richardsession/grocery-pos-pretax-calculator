@@ -16,7 +16,7 @@ describe('ShoppingCartLineItem class', () => {
         const product = new Product('bananas', 0.69);
         const lineItem = new ShoppingCartLineItem(product, 3);
 
-        expect(lineItem.getProduct()).toEqual(product);
+        expect(lineItem.product).toEqual(product);
         expect(lineItem.quantity).toEqual(3);
     });
 
