@@ -33,8 +33,6 @@ export default class ProductRuleBogoComparisonSpecialStrategy
             _qtyDiscounted: qtyDiscounted,
             _discount: discount
         });
-
-        this.validateQtyDiscounted(qtyNeeded, qtyDiscounted);
         
         this.#_qtyNeeded = qtyNeeded;
         this.#_qtyDiscounted = qtyDiscounted;
@@ -52,8 +50,6 @@ export default class ProductRuleBogoComparisonSpecialStrategy
             _discount: this.discount,
         });
 
-        this.validateQtyDiscounted(qtyNeeded, this.qtyDiscounted);
-
         this.#_qtyNeeded = qtyNeeded
     }
 
@@ -67,8 +63,6 @@ export default class ProductRuleBogoComparisonSpecialStrategy
             _qtyNeeded: this.qtyNeeded,
             _discount: this.discount,
         });
-
-        this.validateQtyDiscounted(this.qtyNeeded, qtyDiscounted);
 
         this.#_qtyDiscounted = qtyDiscounted;
     }
@@ -113,17 +107,5 @@ export default class ProductRuleBogoComparisonSpecialStrategy
      */
     qualifies (lineItem) {
         return this.qtyNeeded <= lineItem.quantity && lineItem.quantity <= (this.qtyNeeded + this.qtyDiscounted);
-    }
-
-    /**
-     * Ensure that the quantity needed for the discount is greater than the quantity being discounted
-     * 
-     * @param number qtyNeeded 
-     * @param number qtyDiscounted 
-     */
-    validateQtyDiscounted (qtyNeeded, qtyDiscounted) {
-        if(qtyNeeded < qtyDiscounted) {
-            throw new Error('The quantity discounted must be less than or equal to the quantity needed for the special');
-        }
     }
 }
