@@ -1,27 +1,27 @@
 {
-  "name": "pillar",
+  "name": "grocery-pos-pretax-calculator",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Grocery store PoS system to calculate the pre-tax total of products scanned at checkout",
   "scripts": {
     "test": "./node_modules/.bin/jest --no-cache"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/richardsession/pillar-code-kata.git"
+    "url": "git+https://github.com/richardsession/grocery-pos-pretax-calculator.git"
   },
   "keywords": [
     "javascript",
     "es6",
     "jest",
-    "tdd"
+    "tdd",
+    "babel"
   ],
   "author": "Richard Session <info@richardsession.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/richardsession/pillar-code-kata/issues"
+    "url": "https://github.com/richardsession/grocery-pos-pretax-calculator/issues"
   },
-  "homepage": "https://github.com/richardsession/pillar-code-kata#readme",
+  "homepage": "https://github.com/richardsession/grocery-pos-pretax-calculator#readme",
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
